@@ -1,0 +1,61 @@
+
+
+4. Stemming (e.g., using Porter Stemmer)
+→ Reduces words to their root form by chopping suffixes.
+‘studying’ → ‘studi’
+
+
+5. Lemmatization
+→ More accurate than stemming. Converts words to their base dictionary form using context.
+‘studying’ → ‘study’
+
+🔸 Usually use either stemming OR lemmatization, not both.
+
+
+
+
+---
+
+So your corrected workflow might be:
+
+Raw Text → Tokenization → Lowercase → Stopword Removal → Lemmatization
+(or Porter Stemmer instead of Lemmatizer)
+
+
+---
+
+If you're writing this as a code block, here’s a sample in Python (using NLTK):
+
+import nltk
+from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
+from nltk.stem import PorterStemmer, WordNetLemmatizer
+
+nltk.download('punkt')
+nltk.download('stopwords')
+nltk.download('wordnet')
+
+text = "StockBirds are analyzing NLP pipelines efficiently."
+
+# Step 1: Tokenization
+tokens = word_tokenize(text)
+
+# Step 2: Lowercase
+tokens = [word.lower() for word in tokens]
+
+# Step 3: Stopword Removal
+stop_words = set(stopwords.words('english'))
+filtered = [word for word in tokens if word not in stop_words]
+
+# Step 4a: Stemming (Porter)
+stemmer = PorterStemmer()
+stemmed = [stemmer.stem(word) for word in filtered]
+
+# OR Step 4b: Lemmatization
+lemmatizer = WordNetLemmatizer()
+lemmatized = [lemmatizer.lemmatize(word) for word in filtered]
+
+
+---
+
+Let me know if you want this tailored to spaCy or a different library.
